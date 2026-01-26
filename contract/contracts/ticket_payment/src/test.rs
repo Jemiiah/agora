@@ -2,7 +2,6 @@ use super::contract::{event_registry, TicketPaymentContract, TicketPaymentContra
 use super::storage::*;
 use super::types::{Payment, PaymentStatus};
 use soroban_sdk::{
-    symbol_short,
     testutils::{Address as _, Events},
     token, Address, Env, IntoVal, String, Symbol, TryIntoVal,
 };
@@ -44,12 +43,12 @@ fn setup_test(
     Address,
 ) {
     let contract_id = env.register(TicketPaymentContract, ());
-    let client = TicketPaymentContractClient::new(&env, &contract_id);
+    let client = TicketPaymentContractClient::new(env, &contract_id);
 
     let usdc_id = env
-        .register_stellar_asset_contract_v2(Address::generate(&env))
+        .register_stellar_asset_contract_v2(Address::generate(env))
         .address();
-    let platform_wallet = Address::generate(&env);
+    let platform_wallet = Address::generate(env);
     let event_registry_id = env.register(MockEventRegistry, ());
 
     client.initialize(&usdc_id, &platform_wallet, &event_registry_id);
